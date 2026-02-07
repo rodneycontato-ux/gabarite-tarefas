@@ -1,0 +1,103 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model categoria {
+  id             Int     @id @default(autoincrement())
+  nome_categoria String? @db.VarChar(200)
+
+  @@index([nome_categoria], map: "nome_categoria")
+}
+
+model notificacao {
+  id_notificacao          Int                       @id @default(autoincrement())
+  id_usuario              Int?
+  mensagem                String                    @db.LongText
+  data_envio              DateTime?                 @default(now()) @db.Timestamp(0)
+  usuario                 usuario?                  @relation(fields: [id_usuario], references: [id_usuario], onDelete: Cascade, map: "FK_usuario_notificacao")
+  notificacao_visualizada notificacao_visualizada[]
+
+  @@index([id_usuario], map: "id_usuario")
+}
+
+model notificacao_visualizada {
+  id_visualizada    Int         @id @default(autoincrement())
+  id_notificacao    Int
+  id_usuario        Int
+  data_visualizacao DateTime?   @default(now()) @db.Timestamp(0)
+  notificacao       notificacao @relation(fields: [id_notificacao], references: [id_notificacao], onDelete: Cascade, map: "FK_notificcao_visualizou")
+  usuario           usuario     @relation(fields: [id_usuario], references: [id_usuario], onDelete: Cascade, map: "FK_uusuario_visualizou")
+
+  @@index([id_notificacao], map: "FK_notificcao_visualizou")
+  @@index([id_usuario], map: "FK_uusuario_visualizou")
+}
+
+model pagamentos {
+  id_pagamento    Int               @id @default(autoincrement())
+  id_usuario      Int
+  ano             Int               @db.Year
+  mes             Int               @db.TinyInt
+  total_itens     Int
+  total_valor     Decimal           @db.Decimal(10, 2)
+  criado_em       DateTime?         @default(now()) @db.DateTime(0)
+  data_pagamento  DateTime?         @db.DateTime(0)
+  status          pagamentos_status @default(pendente)
+  id_transacao_mp Int?
+  usuario         usuario           @relation(fields: [id_usuario], references: [id_usuario], onUpdate: Restrict, map: "FK_pagamentos_usuario")
+
+  @@unique([id_usuario, ano, mes], map: "uk_usuario_ano_mes")
+}
+
+model pauta {
+  id_pauta       Int       @id @default(autoincrement())
+  id_usuario     Int?
+  site           String?   @db.VarChar(100)
+  categoria      String?   @db.VarChar(100)
+  status         String    @db.VarChar(50)
+  data           DateTime  @db.DateTime(0)
+  data_inicio    DateTime? @db.DateTime(0)
+  data_conclusao DateTime? @db.DateTime(0)
+  texto          String?   @db.LongText
+  titulo         String?   @db.VarChar(300)
+  preco          Float?    @db.Float
+  usuario        usuario?  @relation(fields: [id_usuario], references: [id_usuario], onDelete: NoAction, map: "FK_usuario_pauta")
+
+  @@index([categoria], map: "categoria")
+  @@index([id_usuario], map: "id_usuario")
+  @@index([site], map: "site")
+}
+
+model site {
+  id_site   Int     @id @default(autoincrement())
+  nome_site String? @db.VarChar(200)
+  url_home  String? @db.VarChar(200)
+  url_admin String? @db.VarChar(200)
+  ordem     Int?
+
+  @@index([nome_site], map: "nome_site")
+}
+
+model usuario {
+  id_usuario              Int                       @id @default(autoincrement())
+  nome                    String                    @db.VarChar(100)
+  status                  Int                       @default(0)
+  nivel                   Int                       @default(0)
+  data                    DateTime                  @db.DateTime(0)
+  email                   String                    @db.VarChar(150)
+  senha                   String?                   @db.VarChar(255)
+  pix                     String?                   @db.VarChar(100)
+  notificacao             notificacao[]
+  notificacao_visualizada notificacao_visualizada[]
+  pagamentos              pagamentos[]
+  pauta                   pauta[]
+}
+
+enum pagamentos_status {
+  pendente
+  pago
+}

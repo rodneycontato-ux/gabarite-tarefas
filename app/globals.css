@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+@theme {
+  /* Sua paleta de cores personalizada */
+  --color-brand-primary: #FF6B00;    /* Laranja */
+  --color-brand-secondary: #1A1A1A;  /* Quase preto */
+  --color-brand-accent: #FDF2E9;     /* Bege fundo */
+  --color-brand-muted: #666666;      /* Cinza texto */
+
+  /* Suas fontes */
+  --font-sans: "Inter", ui-sans-serif, system-ui;
+  --font-title: "Lexend", serif;
+}
