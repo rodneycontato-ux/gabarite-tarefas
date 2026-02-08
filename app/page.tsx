@@ -10,7 +10,7 @@ export default function LandingPage() {
           <span className="text-xl font-black text-slate-900 tracking-tighter uppercase">Gabarite Tarefas</span>
         </div>
         <div className="hidden md:flex gap-8 text-sm font-bold text-slate-500 uppercase tracking-widest">
-          <a href="#funcionalidades" className="hover:text-indigo-600 transition">Funcionalidades</a>
+          <a href="#funcionalidades" className="hover:text-indigo-600 transition">Funcionalidades teste</a>
           <a href="#sobre" className="hover:text-indigo-600 transition">Sobre</a>
         </div>
         <Link 
