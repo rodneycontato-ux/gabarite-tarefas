@@ -39,7 +39,7 @@ export default async function TarefasIniciadas() {
       <div className="flex justify-between items-start">
         <div>
           <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">
-            Tarefas Iniciadas
+            Tarefas Abertas
           </p>
           <h3 className="text-3xl font-black text-slate-900 italic font-mono">
             {totalStatus3.toString().padStart(2, "0")}
@@ -47,7 +47,7 @@ export default async function TarefasIniciadas() {
         </div>
         <div className="text-right">
           <p className="text-[10px] font-bold text-slate-300 uppercase italic">
-            Em Processo
+            Custo Previsto
           </p>
           <p className="text-sm font-black text-blue-600">
             {valorFormatado}
@@ -55,16 +55,10 @@ export default async function TarefasIniciadas() {
         </div>
       </div>
 
-      {/* Barra de progresso baseada no cálculo real */}
-      <div className="mt-4 w-full bg-slate-50 h-1 rounded-full overflow-hidden">
-        <div 
-          className="bg-blue-600 h-full transition-all duration-500" 
-          style={{ width: `${porcentagemFluxo}%` }}
-        ></div>
-      </div>
+      
 
-      <p className="text-[10px] text-blue-400 mt-2 font-black uppercase italic">
-        {porcentagemFluxo}% do fluxo ativo
+      <p className="text-[10px] text-red-600 mt-4 font-black uppercase flex items-center gap-1">
+        <span className="animate-pulse">⚡</span> Iniciadas Agora
       </p>
 
       {/* Ícone decorativo de engrenagem/processo */}

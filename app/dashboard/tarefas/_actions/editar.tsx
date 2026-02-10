@@ -5,34 +5,40 @@ import { revalidatePath } from "next/cache";
 
 export async function editarPauta(id: number, formData: FormData) {
   try {
-    // 1. Extração dos dados do FormData (Incluindo o Novo Título)
+    // 1. Extração dos dados e conversão para os tipos corretos
     const titulo = formData.get("titulo") as string;
-    const site = formData.get("site") as string;
-    const categoria = formData.get("categoria") as string;
+    
+    // PEGAMOS OS IDS (que devem vir dos names "id_site" e "id_categoria" no seu FormPauta)
+    const idSiteRaw = formData.get("id_site");
+    const idCategoriaRaw = formData.get("id_categoria");
+    
     const precoRaw = formData.get("preco") as string;
     const status = formData.get("status") as string;
     const texto = formData.get("texto") as string;
 
-    // 2. Tratamento do preço para o formato do banco (Decimal/Float)
+    // 2. Tratamento numérico (O Prisma exige Int para IDs e Float/Decimal para preço)
     const preco = precoRaw ? parseFloat(precoRaw) : 0;
+    const id_site = idSiteRaw ? Number(idSiteRaw) : null;
+    const id_categoria = idCategoriaRaw ? Number(idCategoriaRaw) : null;
 
-    // 3. Atualização no banco legado usando o Prisma
+    // 3. Atualização no banco de dados
     await prisma.pauta.update({
       where: {
         id_pauta: id,
       },
       data: {
-        titulo,    // ATUALIZANDO O TÍTULO
-        site,
-        categoria,
+        titulo,
+        texto,
         preco,
         status,
-        texto,
+        // ATUALIZANDO AS CHAVES ESTRANGEIRAS (IDs)
+        id_site: id_site,
+        id_categoria: id_categoria,
+        
       },
     });
 
-    // 4. Limpa o cache para os dados novos aparecerem no mural
-    // Ajustei o path para pegar a raiz de tarefas onde ficam os cards
+    // 4. Limpa o cache
     revalidatePath("/dashboard/tarefas");
     
     return { success: true };

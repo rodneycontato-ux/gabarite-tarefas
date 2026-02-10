@@ -30,9 +30,7 @@ model pauta {
   id_pauta       Int       @id @default(autoincrement())
   id_usuario     Int?
   id_site        Int?
-  site           String?   @db.VarChar(100)
   id_categoria   Int?
-  categoria      String?   @db.VarChar(100)
   status         String    @db.VarChar(50)
   data           DateTime  @db.DateTime(0)
   data_inicio    DateTime? @db.DateTime(0)
@@ -44,9 +42,8 @@ model pauta {
   site_relacionado site?  @relation(fields: [id_site], references: [id_site], onDelete: NoAction, onUpdate: Cascade, map: "FK_pauta_site")
   categoria_relacionada categoria?  @relation(fields: [id_categoria], references: [id], onDelete: NoAction, onUpdate: Cascade, map: "FK_pauta_categoria")
 
-  @@index([categoria], map: "categoria")
+ 
   @@index([id_usuario], map: "id_usuario")
-  @@index([site], map: "site")
   @@index([id_site], map: "id_site")
   @@index([id_categoria], map: "id_categoria")
 }
@@ -76,7 +73,6 @@ model pagamentos {
   criado_em       DateTime?         @default(now()) @db.DateTime(0)
   data_pagamento  DateTime?         @db.DateTime(0)
   status          pagamentos_status @default(pendente)
-  id_transacao_mp Int?
   usuario         usuario           @relation(fields: [id_usuario], references: [id_usuario], onUpdate: Restrict, map: "FK_pagamentos_usuario")
 
   @@unique([id_usuario, ano, mes], map: "uk_usuario_ano_mes")

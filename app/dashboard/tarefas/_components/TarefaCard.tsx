@@ -14,7 +14,7 @@ export default function TarefaCard({ tarefa }: { tarefa: any }) {
   const handleAction = async (status: number) => {
     if (!confirm("Confirmar alteração?")) return;
     setIsPending(true);
-    const res = await atualizarStatusPauta(tarefa.id_pauta, status);
+    await atualizarStatusPauta(tarefa.id_pauta, status);
     setIsPending(false);
   };
 
@@ -27,14 +27,17 @@ export default function TarefaCard({ tarefa }: { tarefa: any }) {
     <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm flex flex-col hover:shadow-md transition-all border-b-4 border-b-slate-200 relative min-h-[320px]">
       
       <div className="p-7 flex flex-col flex-grow">
-        {/* Header */}
+        {/* Header - PUXANDO DOS RELACIONAMENTOS DO SCHEMA */}
         <div className="flex justify-between items-start mb-4">
           <div className="flex gap-2 text-white">
+            {/* Puxa nome_site da relação vinculada ao id_site */}
             <span className="text-[9px] font-black uppercase bg-blue-50 text-blue-600 px-3 py-1 rounded-full border border-blue-100">
-              {tarefa.site || 'GERAL'}
+              {tarefa.site_relacionado?.nome_site || "SEM PROJETO"}
             </span>
+
+            {/* Puxa nome_categoria da relação vinculada ao id_categoria */}
             <span className="text-[9px] font-black uppercase bg-slate-100 text-slate-500 px-3 py-1 rounded-full">
-              {tarefa.categoria || "Job"}
+              {tarefa.categoria_relacionada?.nome_categoria || "SEM CATEGORIA"}
             </span>
           </div>
           <span className="text-[10px] font-black text-slate-200">#{tarefa.id_pauta}</span>
@@ -45,7 +48,7 @@ export default function TarefaCard({ tarefa }: { tarefa: any }) {
           {tarefa.titulo || "Sem título"}
         </h2>
 
-        {/* Botão Ver Descrição com Mãozinha e Cursor de Link */}
+        {/* Botão Ver Descrição */}
         <button 
           onClick={() => setShowDesc(!showDesc)}
           className="group/btn text-[10px] font-black uppercase text-blue-600 hover:text-blue-700 flex items-center gap-1.5 mb-3 transition-colors cursor-pointer w-fit"
@@ -65,10 +68,8 @@ export default function TarefaCard({ tarefa }: { tarefa: any }) {
         )}
 
         <div className="mt-auto pt-2 flex flex-col gap-4">
-          {/* Status da Pauta */}
           <div>{getStatusPauta(tarefa.status)}</div>
           
-          {/* BLOCO DO USUÁRIO E DATAS (Restaurado ao padrão original) */}
           <div className="flex items-center gap-3 px-1">
             <div className="w-9 h-9 rounded-full bg-slate-100 flex items-center justify-center text-[12px] border border-slate-200 shadow-sm flex-shrink-0">
               👤
@@ -91,7 +92,6 @@ export default function TarefaCard({ tarefa }: { tarefa: any }) {
         </div>
       </div>
 
-      {/* Rodapé Financeiro */}
       <div className="p-7 pt-0">
         <div className="flex items-center justify-between bg-slate-50 rounded-3xl p-3 border border-slate-100/50">
           <div className="pl-2">

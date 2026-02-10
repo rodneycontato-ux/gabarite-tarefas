@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { pagarColaboradorAction } from "../_actions/pagar-pix"; // Referência para a action
+import { pagarColaboradorAction } from "../_actions/pagar"; // Referência para a action
 
 export default function BotaoPagarMP({ idPagamento, valor, pix, status }: any) {
   const [loading, setLoading] = useState(false);

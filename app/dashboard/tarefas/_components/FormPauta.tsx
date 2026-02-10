@@ -23,7 +23,7 @@ export default function FormPauta({ sites, categorias, pauta }: { sites: any[], 
       setLoading(false);
     } else {
       alert(pauta ? "Tarefa atualizada!" : "Tarefa cadastrada!");
-      window.location.href = "../../tarefas"; 
+      window.location.href = "/dashboard/tarefas"; //redireciona para pagina se sucesso
     }
   }
 
@@ -31,19 +31,18 @@ export default function FormPauta({ sites, categorias, pauta }: { sites: any[], 
     if (confirm(`Atenção: Deseja realmente excluir a pauta #${pauta.id_pauta}?`)) {
       setLoading(true);
       const res = await excluirPauta(pauta.id_pauta);
-      
       if (res?.error) {
         alert("Erro ao excluir: " + res.error);
         setLoading(false);
       } else {
         alert("Pauta removida com sucesso.");
-        window.location.href = "../../tarefas";
+        window.location.href = "/tarefas";
       }
     }
   }
 
   const labelStyle = "text-[9px] font-black uppercase text-slate-400 tracking-widest mb-2 ml-1";
-  const inputStyle = "bg-slate-50 border border-slate-100 text-slate-900 p-4 rounded-[1.5rem] outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all placeholder:text-slate-300 text-sm font-bold uppercase italic";
+  const inputStyle = "bg-slate-50 border border-slate-100 text-slate-900 p-4 rounded-[1.5rem] outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all placeholder:text-slate-300 text-sm font-bold uppercase italic w-full";
 
   return (
     <form action={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 bg-white p-10 rounded-[2.5rem] border border-slate-100 shadow-sm border-b-4 border-b-slate-200 text-slate-900">
@@ -64,34 +63,52 @@ export default function FormPauta({ sites, categorias, pauta }: { sites: any[], 
         </div>
       </div>
 
-      {/* CAMPO NOVO: TÍTULO DA TAREFA */}
+      {/* TÍTULO */}
       <div className="col-span-full flex flex-col">
-        <label className={labelStyle}>Título da Tarefa (O que deve ser feito?)</label>
+        <label className={labelStyle}>Título da Tarefa</label>
         <input 
           name="titulo" 
           type="text" 
           required 
           className={inputStyle} 
-          placeholder="EX: CRIAR POST PARA INSTAGRAM SOBRE BANCO DE DADOS" 
+          placeholder="EX: CRIAR POST PARA INSTAGRAM..." 
           defaultValue={pauta?.titulo || ""}
         />
       </div>
 
-      {/* Projeto */}
+      {/* PROJETO - Tabela Site usa id_site */}
       <div className="flex flex-col">
-        <label className={labelStyle}>Projeto Destino</label>
-        <select name="site" required className={inputStyle} defaultValue={pauta?.site || ""}>
-          <option value="">Selecionar projeto...</option>
-          {sites.map(s => <option key={s.id_site} value={s.nome_site || ""}>{s.nome_site}</option>)}
+        <label className={labelStyle}>Site Destino</label>
+        <select 
+          name="id_site" 
+          required 
+          className={inputStyle} 
+          defaultValue={pauta?.id_site || ""}
+        >
+          <option value="">Selecionar site...</option>
+          {sites.map(s => (
+            <option key={s.id_site} value={s.id_site}>
+              {s.nome_site}
+            </option>
+          ))}
         </select>
       </div>
 
-      {/* Categoria */}
+      {/* CATEGORIA - Tabela Categoria usa id */}
       <div className="flex flex-col">
         <label className={labelStyle}>Categoria</label>
-        <select name="categoria" required className={inputStyle} defaultValue={pauta?.categoria || ""}>
+        <select 
+          name="id_categoria" 
+          required 
+          className={inputStyle} 
+          defaultValue={pauta?.id_categoria || ""}
+        >
           <option value="">Selecionar categoria...</option>
-          {categorias.map(c => <option key={c.id} value={c.nome_categoria || ""}>{c.nome_categoria}</option>)}
+          {categorias.map(c => (
+            <option key={c.id} value={c.id}>
+              {c.nome_categoria}
+            </option>
+          ))}
         </select>
       </div>
 
@@ -104,7 +121,7 @@ export default function FormPauta({ sites, categorias, pauta }: { sites: any[], 
             name="preco" 
             type="number" 
             step="0.01" 
-            className={`${inputStyle} w-full pl-12`} 
+            className={`${inputStyle} pl-12`} 
             placeholder="0,00" 
             defaultValue={pauta?.preco || ""}
           />
@@ -114,20 +131,16 @@ export default function FormPauta({ sites, categorias, pauta }: { sites: any[], 
       {/* Status */}
       <div className="flex flex-col">
         <label className={labelStyle}>Status do Fluxo</label>
-        <select 
-          name="status" 
-          className={inputStyle} 
-          defaultValue={pauta?.status || "3"}
-        >
-          <option value="3">🟡 Aberto</option>
-          <option value="2">🟠 Pendente</option>
-          <option value="1">🟢 Concluído</option>
+        <select name="status" className={inputStyle} defaultValue={pauta?.status || "3"}>
+          <option value="3">🟡 3. Aberto</option>
+          <option value="2">🟠 2. Pendente</option>
+          <option value="1">🟢 1. Concluído</option>
         </select>
       </div>
 
-      {/* Editor de Texto */}
+      {/* Editor */}
       <div className="col-span-full flex flex-col mt-2">
-        <label className={labelStyle}>Conteúdo e Briefing Detalhado</label>
+        <label className={labelStyle}>Conteúdo e Briefing</label>
         <div className="rounded-[1.5rem] overflow-hidden border border-slate-100 bg-slate-50 p-1">
           <Editor value={texto} onChange={setTexto} />
         </div>
@@ -138,9 +151,9 @@ export default function FormPauta({ sites, categorias, pauta }: { sites: any[], 
         <button 
           type="submit" 
           disabled={loading}
-          className="flex-grow bg-[#1e293b] hover:bg-blue-600 text-white font-black uppercase text-[10px] tracking-[0.2em] p-5 rounded-2xl transition-all shadow-lg active:scale-[0.98] flex items-center justify-center gap-3 disabled:opacity-50"
+          className="flex-grow bg-[#1e293b] hover:bg-blue-600 text-white font-black uppercase text-[10px] tracking-[0.2em] p-5 rounded-2xl transition-all shadow-lg active:scale-[0.98] disabled:opacity-50"
         >
-          {loading ? "Processando..." : pauta ? "💾 Salvar Alterações" : "🚀 Publicar Pauta no Mural"}
+          {loading ? "Processando..." : pauta ? "💾 Salvar Alterações" : "🚀 Publicar Pauta"}
         </button>
 
         {pauta && (
@@ -148,10 +161,9 @@ export default function FormPauta({ sites, categorias, pauta }: { sites: any[], 
             type="button"
             onClick={handleExcluir}
             disabled={loading}
-            className="bg-red-50 hover:bg-red-500 text-red-500 hover:text-white border border-red-100 px-8 rounded-2xl transition-all flex items-center justify-center disabled:opacity-30 cursor-pointer"
-            title="Excluir Pauta"
+            className="bg-red-50 hover:bg-red-500 text-red-500 hover:text-white border border-red-100 px-8 rounded-2xl transition-all flex items-center justify-center disabled:opacity-30"
           >
-            <span className="text-lg">🗑️</span>
+            🗑️
           </button>
         )}
       </div>

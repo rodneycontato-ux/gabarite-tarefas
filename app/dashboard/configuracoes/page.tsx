@@ -3,16 +3,16 @@ import Link from "next/link";
 export default function ConfiguracoesPage() {
   const menus = [
     {
-      titulo: "Projetos",
+      titulo: "Sites",
       descricao: "Gerenciar sites e domínios",
-      link: "/dashboard/configuracoes/projetos",
+      link: "/dashboard/configuracoes/sites",
       emoji: "🌐",
       cor: "bg-blue-50 text-blue-600",
       borda: "hover:border-blue-500"
     },
     {
       titulo: "Categorias",
-      descricao: "Ajustar tipos de pauta",
+      descricao: "Ajustar tipos de tarefas",
       link: "/dashboard/configuracoes/categorias",
       emoji: "📁",
       cor: "bg-emerald-50 text-emerald-600",

@@ -63,7 +63,7 @@ export default async function PagarPage({ params }: { params: Promise<{ id: stri
         />
         
         <p className="text-center text-[9px] text-slate-400 uppercase font-bold mt-6 tracking-tighter">
-          Atenção: Ao clicar em confirmar, o valor será debitado da sua conta Mercado Pago.
+          Atenção: Ao clicar em confirmar, o status será atualizado para pago.
         </p>
       </div>
     </div>

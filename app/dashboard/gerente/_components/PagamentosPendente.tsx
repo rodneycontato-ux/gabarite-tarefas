@@ -29,7 +29,7 @@ export default async function PagamentosPendente() {
       <div className="flex justify-between items-start mb-4 relative z-10">
         <div>
           <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">
-            Pagamentos Pendentes
+            Tarefas Concluídas
           </p>
           <h3 className="text-3xl font-black text-slate-900 italic font-mono">
             {quantidadePendentes.toString().padStart(2, "0")}
@@ -37,7 +37,7 @@ export default async function PagamentosPendente() {
         </div>
         <div className="text-right">
           <p className="text-[10px] font-bold text-slate-300 uppercase italic">
-            Total Pendente
+            Total à Pagar
           </p>
           <p className="text-lg font-black text-emerald-600 italic">
             {formatador.format(valorTotal)}
