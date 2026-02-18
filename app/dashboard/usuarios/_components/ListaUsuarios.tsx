@@ -22,8 +22,8 @@ export default function UsuariosClient({ usuarios }: { usuarios: any[] }) {
     <>
       <div className="flex justify-between items-end mb-10">
         <div>
-          <h1 className="text-4xl font-black italic uppercase text-slate-800 leading-none">Colaboradores</h1>
-          <p className="text-sm font-bold text-slate-400 uppercase mt-2 italic">Gerenciamento de equipe</p>
+          <h1 className="text-3xl font-black italic uppercase text-slate-900 leading-none">Colaboradores</h1>
+          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mt-3">Gerenciamento de equipe</p>
         </div>
         
         <button 
