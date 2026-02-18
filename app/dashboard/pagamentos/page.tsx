@@ -50,8 +50,7 @@ export default async function PagamentosPage() {
   return (
     <div className="p-8 bg-slate-50 min-h-screen">
       <div className="mb-10">
-        <h1 className="text-3xl font-black italic uppercase text-slate-900 leading-none tracking-tight">
-          Pagamentos
+        <h1 className="text-3xl font-black italic uppercase text-slate-900 leading-none">Pagamentos
         </h1>
         <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mt-3">
           Histórico de recebimentos

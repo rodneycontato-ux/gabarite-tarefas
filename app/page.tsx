@@ -14,7 +14,7 @@ export default function LandingPage() {
             Gabarite Tarefas
           </h1>
           <p className="text-slate-400 text-sm font-medium">
-            Ambiente restrito a colaboradores
+            Ambiente restrito para colaboradores
           </p>
         </div>
 
