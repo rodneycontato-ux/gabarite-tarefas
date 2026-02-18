@@ -6,7 +6,36 @@ import { editarPauta } from "../_actions/editar";
 import { excluirPauta } from "../_actions/excluir"; 
 import Editor from "../../_components/Editor";
 
-export default function FormPauta({ sites, categorias, pauta }: { sites: any[], categorias: any[], pauta?: any }) {
+/**
+ * Helper para formatar objetos Date para o formato aceito pelo input datetime-local:
+ * YYYY-MM-DDTHH:mm
+ */
+const formatarDataParaInput = (date: Date | string | null | undefined) => {
+  if (!date) return "";
+  const d = new Date(date);
+  if (isNaN(d.getTime())) return "";
+  
+  // Ajuste para o fuso horário local e formatação para o input
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  const hours = String(d.getHours()).padStart(2, "0");
+  const minutes = String(d.getMinutes()).padStart(2, "0");
+  
+  return `${year}-${month}-${day}T${hours}:${minutes}`;
+};
+
+export default function FormPauta({ 
+  sites, 
+  categorias, 
+  usuarios, 
+  pauta 
+}: { 
+  sites: any[], 
+  categorias: any[], 
+  usuarios: any[], 
+  pauta?: any 
+}) {
   const [texto, setTexto] = useState(pauta?.texto || "");
   const [loading, setLoading] = useState(false);
 
@@ -23,7 +52,7 @@ export default function FormPauta({ sites, categorias, pauta }: { sites: any[], 
       setLoading(false);
     } else {
       alert(pauta ? "Tarefa atualizada!" : "Tarefa cadastrada!");
-      window.location.href = "/dashboard/tarefas"; //redireciona para pagina se sucesso
+      window.location.href = "/dashboard/tarefas"; 
     }
   }
 
@@ -36,7 +65,7 @@ export default function FormPauta({ sites, categorias, pauta }: { sites: any[], 
         setLoading(false);
       } else {
         alert("Pauta removida com sucesso.");
-        window.location.href = "/tarefas";
+        window.location.href = "/dashboard/tarefas";
       }
     }
   }
@@ -76,7 +105,33 @@ export default function FormPauta({ sites, categorias, pauta }: { sites: any[], 
         />
       </div>
 
-      {/* PROJETO - Tabela Site usa id_site */}
+      {/* LINHA 1: COLABORADOR E STATUS */}
+      <div className="flex flex-col">
+        <label className={labelStyle}>Colaborador Responsável</label>
+        <select 
+          name="id_usuario" 
+          className={inputStyle} 
+          defaultValue={pauta?.id_usuario || ""}
+        >
+          <option value="">Selecionar colaborador...</option>
+          {usuarios?.map(u => (
+            <option key={u.id_usuario} value={u.id_usuario}>
+              {u.nome}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="flex flex-col">
+        <label className={labelStyle}>Status do Fluxo</label>
+        <select name="status" className={inputStyle} defaultValue={pauta?.status || "3"}>
+          <option value="3">🟡 3. Aberto</option>
+          <option value="2">🟠 2. Pendente</option>
+          <option value="1">🟢 1. Concluído</option>
+        </select>
+      </div>
+
+      {/* LINHA 2: SITE E CATEGORIA */}
       <div className="flex flex-col">
         <label className={labelStyle}>Site Destino</label>
         <select 
@@ -94,7 +149,6 @@ export default function FormPauta({ sites, categorias, pauta }: { sites: any[], 
         </select>
       </div>
 
-      {/* CATEGORIA - Tabela Categoria usa id */}
       <div className="flex flex-col">
         <label className={labelStyle}>Categoria</label>
         <select 
@@ -112,8 +166,31 @@ export default function FormPauta({ sites, categorias, pauta }: { sites: any[], 
         </select>
       </div>
 
-      {/* Valor */}
+      {/* NOVO: LINHA 3 - DATAS (Início Padrão Hoje e Conclusão Opcional) */}
       <div className="flex flex-col">
+        <label className={labelStyle}>Data de Início</label>
+        <input 
+          name="data_inicio" 
+          type="datetime-local" 
+          className={inputStyle} 
+          // Se for edição, mantém a data original. Se for novo, coloca a data de hoje.
+          defaultValue={pauta?.data_inicio ? formatarDataParaInput(pauta.data_inicio) : formatarDataParaInput(new Date())}
+        />
+      </div>
+
+      <div className="flex flex-col">
+        <label className={labelStyle}>Data de Conclusão (Opcional)</label>
+        <input 
+          name="data_conclusao" 
+          type="datetime-local" 
+          className={inputStyle} 
+          // Vem sempre vazio se for novo ou se não tiver no banco
+          defaultValue={formatarDataParaInput(pauta?.data_conclusao)}
+        />
+      </div>
+
+      {/* LINHA 4: VALOR */}
+      <div className="col-span-full flex flex-col">
         <label className={labelStyle}>Valor da Pauta</label>
         <div className="relative">
           <span className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 font-black text-xs">R$</span>
@@ -126,16 +203,6 @@ export default function FormPauta({ sites, categorias, pauta }: { sites: any[], 
             defaultValue={pauta?.preco || ""}
           />
         </div>
-      </div>
-
-      {/* Status */}
-      <div className="flex flex-col">
-        <label className={labelStyle}>Status do Fluxo</label>
-        <select name="status" className={inputStyle} defaultValue={pauta?.status || "3"}>
-          <option value="3">🟡 3. Aberto</option>
-          <option value="2">🟠 2. Pendente</option>
-          <option value="1">🟢 1. Concluído</option>
-        </select>
       </div>
 
       {/* Editor */}

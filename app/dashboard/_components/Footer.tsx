@@ -3,7 +3,7 @@ export default function Footer() {
     <div className="w-full px-8 py-6 flex flex-col md:flex-row justify-between items-center text-sm text-slate-400 border-t border-slate-100 bg-white">
       {/* Texto principal - Agora mais discreto */}
       <p className="font-medium">
-        &copy; 2026 <span className="font-bold text-slate-600">Gabarite Tarefas</span> - Gestão de Conteúdos
+        &copy; 2026 <span className="font-bold text-slate-600">Gabarite Tarefas</span> - Gestão de Tarefas
       </p>
       
       {/* Versão e Status */}

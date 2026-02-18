@@ -8,16 +8,23 @@ export default async function EditarPautaPage({ params }: { params: Promise<{ id
 
   if (isNaN(pautaId)) notFound();
 
-  const [pauta, sites, categorias] = await Promise.all([
+  // 1. Adicionamos 'usuarios' na desestruturação e a consulta no Promise.all
+  const [pauta, sites, categorias, usuarios] = await Promise.all([
     prisma.pauta.findUnique({
       where: { id_pauta: pautaId },
       include: {
-        site_relacionado: true,      // Nome da relação no seu model pauta
-        categoria_relacionada: true  // Nome da relação no seu model pauta
+        site_relacionado: true,
+        categoria_relacionada: true,
+        usuario: true // Opcional: inclui a relação do usuário atual se precisar
       }
     }),
     prisma.site.findMany({ orderBy: { nome_site: 'asc' } }),
-    prisma.categoria.findMany({ orderBy: { nome_categoria: 'asc' } })
+    prisma.categoria.findMany({ orderBy: { nome_categoria: 'asc' } }),
+    // 2. BUSCA OS USUÁRIOS PARA O SELECT
+    prisma.usuario.findMany({ 
+        orderBy: { nome: 'asc' },
+        select: { id_usuario: true, nome: true } 
+    })
   ]);
 
   if (!pauta) notFound();
@@ -29,6 +36,7 @@ export default async function EditarPautaPage({ params }: { params: Promise<{ id
           pauta={pauta} 
           sites={sites} 
           categorias={categorias} 
+          usuarios={usuarios} // 3. PASSAMOS A LISTA PARA O FORM
         />
       </div>
     </div>

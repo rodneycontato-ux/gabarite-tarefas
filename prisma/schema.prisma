@@ -37,6 +37,7 @@ model pauta {
   data_conclusao DateTime? @db.DateTime(0)
   texto          String?   @db.LongText
   titulo         String?   @db.VarChar(300)
+  relato_colaborador    String?  @db.LongText
   preco          Float?    @db.Float
   usuario        usuario?  @relation(fields: [id_usuario], references: [id_usuario], onDelete: NoAction, map: "FK_usuario_pauta")
   site_relacionado site?  @relation(fields: [id_site], references: [id_site], onDelete: NoAction, onUpdate: Cascade, map: "FK_pauta_site")

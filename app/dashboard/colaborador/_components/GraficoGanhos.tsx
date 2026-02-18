@@ -59,7 +59,7 @@ export default async function GraficoGanhos() {
   return (
     <div className="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100">
       <div className="mb-6">
-        <h3 className="text-lg font-black italic uppercase text-slate-800">Histórico de Ganhos</h3>
+        <h3 className="text-lg font-black italic uppercase text-slate-800">Histórico de Pagamentos</h3>
         <p className="text-[10px] text-blue-500 font-bold uppercase tracking-widest">Últimos 12 meses</p>
       </div>
       

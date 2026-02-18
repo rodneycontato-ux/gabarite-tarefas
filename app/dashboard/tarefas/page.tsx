@@ -11,10 +11,12 @@ interface CustomSession {
   };
 }
 
-async function getTarefas(nivel?: number, idUsuario?: number) {
+// Adicionamos o parâmetro 'status' na busca
+async function getTarefas(nivel?: number, idUsuario?: number, statusFiltro?: string) {
   try {
     let whereCondition: any = {};
 
+    // Filtro de Nível/Usuário (sua regra existente)
     if (nivel === 2) {
       whereCondition = {
         OR: [
@@ -24,19 +26,22 @@ async function getTarefas(nivel?: number, idUsuario?: number) {
       };
     }
 
+    // NOVO: Filtro de Status vindo da URL
+    if (statusFiltro && statusFiltro !== "todos") {
+      whereCondition.status = statusFiltro;
+    }
+
     const tarefas = await prisma.pauta.findMany({
       where: whereCondition,
-      // ORDENAÇÃO: Status 3 primeiro, depois 2, depois 1. 
       orderBy: [
         { status: 'desc' }, 
         { data: 'desc' }
       ],
-      take: 50, // Aumentei um pouco o limite para garantir visualização
+      take: 50,
       include: {
         usuario: true,
-        // ESTES SÃO OS CAMPOS QUE ESTAVAM FALTANDO:
-        site_relacionado: true,      // Traz os dados da tabela 'site' pelo id_site
-        categoria_relacionada: true  // Traz os dados da tabela 'categoria' pelo id_categoria
+        site_relacionado: true,
+        categoria_relacionada: true
       }
     });
     return tarefas;
@@ -46,12 +51,26 @@ async function getTarefas(nivel?: number, idUsuario?: number) {
   }
 }
 
-export default async function MuralTarefasPage() {
+export default async function MuralTarefasPage({ 
+  searchParams 
+}: { 
+  searchParams: Promise<{ status?: string }> 
+}) {
+  const { status } = await searchParams;
   const session = (await getServerSession(authOptions)) as CustomSession | null;
   const nivel = session?.user?.nivel;
   const idUsuario = session?.user?.id_usuario;
 
-  const tarefas = await getTarefas(nivel, idUsuario);
+  // Passamos o status atual para a função de busca
+  const tarefas = await getTarefas(nivel, idUsuario, status);
+
+  // Definição dos botões de filtro para o mapeamento
+  const filtros = [
+    { label: "Todos", value: "todos", color: "bg-slate-200 text-slate-600" },
+    { label: "Pendente", value: "2", color: "bg-blue-100 text-blue-600" }, // Status 2 conforme sua lógica
+    { label: "Aberto", value: "3", color: "bg-amber-100 text-amber-600" }, // Status 3
+    { label: "Concluído", value: "1", color: "bg-emerald-100 text-emerald-600" }, // Status 1
+  ];
 
   return (
     <div className="p-8 bg-slate-50 min-h-screen">
@@ -62,16 +81,33 @@ export default async function MuralTarefasPage() {
           <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mt-3">PROJETOS DISPONÍVEIS PARA PRODUÇÃO</p>
         </div>
 
-        {/* BOTÃO NOVO (APENAS NÍVEL 1) */}
         {nivel === 1 && (
           <Link 
             href="/dashboard/tarefas/cadastrar" 
             className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] transition-all shadow-xl shadow-blue-100 flex items-center gap-3 active:scale-95 w-fit"
           >
-            <span className="text-lg">+</span>
-            Nova Tarefa
+            <span className="text-lg">+</span> Nova Tarefa
           </Link>
         )}
+      </div>
+
+      {/* BARRA DE FILTROS */}
+      <div className="flex flex-wrap gap-2 mb-8">
+        {filtros.map((f) => (
+          <Link
+            key={f.value}
+            href={`/dashboard/tarefas?status=${f.value}`}
+            className={`
+              px-6 py-2 rounded-full text-[9px] font-black uppercase tracking-widest transition-all
+              ${(!status && f.value === "todos") || status === f.value 
+                ? `${f.color} ring-2 ring-offset-2 ring-slate-200` 
+                : "bg-white text-slate-400 hover:bg-slate-50 border border-slate-100"
+              }
+            `}
+          >
+            {f.label}
+          </Link>
+        ))}
       </div>
 
       {/* GRID DE CARDS */}
@@ -84,7 +120,7 @@ export default async function MuralTarefasPage() {
       {/* EMPTY STATE */}
       {tarefas.length === 0 && (
         <div className="text-center py-20 bg-white rounded-[3rem] border-2 border-dashed border-slate-100">
-          <p className="text-slate-300 font-black uppercase italic">Nenhuma pauta encontrada.</p>
+          <p className="text-slate-300 font-black uppercase italic">Nenhuma pauta encontrada com este status.</p>
         </div>
       )}
     </div>
