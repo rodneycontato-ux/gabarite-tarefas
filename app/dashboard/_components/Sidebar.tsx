@@ -3,7 +3,17 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { prisma } from "@/lib/prisma"; 
 import NotificationBadge from "../notificacoes/_components/NotificationBadge"; 
 import Link from 'next/link';
-import NavLink from "./NavLink"; // Componente que criamos acima
+import NavLink from "./NavLink";
+import { 
+  LayoutDashboard, 
+  CheckCircle2, 
+  Users, 
+  CircleDollarSign, 
+  Bell, 
+  Settings, 
+  PlusCircle, 
+  Search 
+} from "lucide-react";
 
 interface CustomSession {
   user?: {
@@ -18,7 +28,6 @@ export default async function Sidebar() {
   const nivel = session?.user?.nivel;
   const idUsuario = session?.user?.id_usuario;
 
-  // 1. Busca contagem de notificações
   let totalNaoLidas = 0;
   if (idUsuario && nivel !== 1) {
     try {
@@ -36,12 +45,12 @@ export default async function Sidebar() {
     }
   }
 
-  // Estilos de destaque
-  const activeStyle = "flex items-center gap-3 p-3 bg-slate-800 text-white rounded-xl font-bold transition-all duration-200";
+  const activeStyle = "flex items-center gap-3 p-3 bg-slate-800 text-white rounded-xl font-bold transition-all duration-200 shadow-lg shadow-black/20";
   const normalStyle = "flex items-center gap-3 p-3 text-slate-400 hover:bg-slate-800/50 hover:text-white rounded-xl font-medium transition-all duration-200 group";
 
   return (
     <div className="flex flex-col h-full text-slate-300">
+      {/* Logo */}
       <div className="p-8">
         <h1 className="text-white text-2xl font-black tracking-tighter uppercase italic leading-none">
           GABARITE<br />
@@ -54,27 +63,27 @@ export default async function Sidebar() {
           /* --- MENU GERENTE --- */
           <>
             <NavLink href="/dashboard/gerente" active={activeStyle} normal={normalStyle}>
-              <span className="text-lg">📊</span> Dashboard
+              <LayoutDashboard size={20} /> Dashboard
             </NavLink>
             <NavLink href="/dashboard/tarefas" active={activeStyle} normal={normalStyle}>
-              <span className="text-lg">✅</span> Tarefas
+              <CheckCircle2 size={20} /> Tarefas
             </NavLink>
             <NavLink href="/dashboard/usuarios" active={activeStyle} normal={normalStyle}>
-              <span className="text-lg">👥</span> Colaboradores
+              <Users size={20} /> Colaboradores
             </NavLink>
             <NavLink href="/dashboard/pagamentos" active={activeStyle} normal={normalStyle}>
-              <span className="text-lg">💰</span> Pagamentos
+              <CircleDollarSign size={20} /> Pagamentos
             </NavLink>
             <NavLink href="/dashboard/notificacoes" active={activeStyle} normal={normalStyle}>
-              <span className="text-lg">🔔</span> Notificações
+              <Bell size={20} /> Notificações
             </NavLink>
             <NavLink href="/dashboard/configuracoes" active={activeStyle} normal={normalStyle}>
-              <span className="text-lg">⚙️</span> Configurações
+              <Settings size={20} /> Configurações
             </NavLink>
             
             <div className="pt-4">
-              <Link href="/dashboard/tarefas/cadastrar" className="w-full flex items-center justify-center gap-2 p-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-bold transition group text-center">
-                <span className="text-xl group-hover:rotate-90 transition-transform">+</span> Nova Tarefa
+              <Link href="/dashboard/tarefas/cadastrar" className="w-full flex items-center justify-center gap-2 p-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-bold transition group text-center shadow-lg shadow-emerald-900/20">
+                <PlusCircle size={20} className="group-hover:rotate-90 transition-transform" /> Nova Tarefa
               </Link>
             </div>
           </>
@@ -82,13 +91,13 @@ export default async function Sidebar() {
           /* --- MENU COLABORADOR --- */
           <>
             <NavLink href="/dashboard/colaborador" active={activeStyle} normal={normalStyle}>
-              <span className="text-lg">📊</span> Dashboard
+              <LayoutDashboard size={20} /> Dashboard
             </NavLink>
             <NavLink href="/dashboard/tarefas" active={activeStyle} normal={normalStyle}>
-              <span className="text-lg">✅</span> Tarefas
+              <CheckCircle2 size={20} /> Minhas Tarefas
             </NavLink>
             <NavLink href="/dashboard/pagamentos" active={activeStyle} normal={normalStyle}>
-              <span className="text-lg">💰</span> Pagamentos
+              <CircleDollarSign size={20} /> Meus Pagamentos
             </NavLink>
             
             <NavLink 
@@ -97,24 +106,23 @@ export default async function Sidebar() {
               normal={`${normalStyle} justify-between`}
             >
               <div className="flex items-center gap-3">
-                <span className="text-lg">🔔</span> Notificações
+                <Bell size={20} /> Notificações
               </div>
               <NotificationBadge inicial={totalNaoLidas} />
             </NavLink>
 
             <div className="pt-4">
-              <Link href="/dashboard/tarefas" className="w-full flex items-center justify-center gap-2 p-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-bold transition group text-center">
-                <span className="text-xl group-hover:rotate-90 transition-transform">+</span> Buscar Tarefas
+              <Link href="/dashboard/tarefas" className="w-full flex items-center justify-center gap-2 p-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold transition group text-center shadow-lg shadow-blue-900/20">
+                <Search size={20} className="group-hover:scale-110 transition-transform" /> Buscar Tarefas
               </Link>
             </div>
-
           </>
         )}
       </nav>
 
       <div className="p-6 border-t border-slate-800/50">
         <p className="text-[10px] text-slate-500 uppercase tracking-widest text-center">
-          Painel Administrativo
+          Painel Administrativo v2.0
         </p>
       </div>
     </div>

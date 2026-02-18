@@ -1,35 +1,26 @@
-// app/dashboard/layout.tsx
 import Sidebar from "./_components/Sidebar";
-import Footer from "./_components/Footer";
 import { Header } from "./_components/Header";
-import { Providers } from "../providers"; // Ajuste o caminho conforme onde você criou o arquivo
+import { Providers } from "../providers";
+import MobileMenu from "./_components/MobileMenu";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
-    <Providers> {/* O Providers "abraça" tudo que está no dashboard */}
-      <div className="flex h-screen w-full overflow-hidden bg-slate-50">
+    <Providers>
+      {/* h-screen e overflow-hidden para manter o scroll apenas no conteúdo */}
+      <div className="flex flex-col lg:flex-row h-screen w-full overflow-hidden bg-slate-50">
         
-        {/* Esquerda: Menu (Fixo) */}
-        <aside className="w-64 flex-shrink-0 bg-[#1e293b]">
+        {/* No mobile, isso renderiza a barra do botão. No desktop, a sidebar lateral. */}
+        <MobileMenu>
           <Sidebar />
-        </aside>
+        </MobileMenu>
 
-        {/* Direita: Área de Scroll Total */}
-        <div className="flex-1 overflow-y-auto min-w-0 h-full flex flex-col">
-
-          {/* O Header agora vai funcionar porque o Providers está acima dele */}
+        <div className="flex-1 flex flex-col min-w-0 h-full overflow-hidden">
+          {/* O Header agora vem LOGO ABAIXO da barra do botão no mobile */}
           <Header />
           
-          {/* CONTEÚDO */}
-          <main className="flex-1 p-8">
+          <main className="flex-1 overflow-y-auto p-4 lg:p-8">
             {children}
           </main>
-          
-          {/* FOOTER */}
-          <footer className="w-full bg-white border-t border-slate-200">
-            <Footer />
-          </footer>
-          
         </div>
       </div>
     </Providers>
