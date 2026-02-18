@@ -51,7 +51,7 @@ export function Header() {
         <div className="h-8 w-[1px] bg-slate-100" />
 
         <button 
-          onClick={() => signOut({ callbackUrl: "/entrar" })}
+          onClick={() => signOut({ callbackUrl: "" })}
           className="text-[10px] font-black uppercase tracking-tighter text-slate-400 hover:text-red-500 transition-colors"
         >
           Sair

@@ -55,7 +55,7 @@ export default function LoginPage() {
         </div>
 
         <div className="bg-white p-8 rounded-3xl shadow-xl border border-slate-200">
-          <h2 className="text-xl font-bold text-slate-800 mb-6 text-center">Identificação</h2>
+          
 
           <form action={clientAction} className="space-y-5">
             {erro && (
