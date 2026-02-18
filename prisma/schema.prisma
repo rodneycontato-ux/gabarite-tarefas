@@ -10,6 +10,7 @@ datasource db {
 model categoria {
   id             Int     @id @default(autoincrement())
   nome_categoria String? @db.VarChar(200)
+  teste String? @db.VarChar(200)
   pautas    pauta[]
 
   @@index([nome_categoria], map: "nome_categoria")
