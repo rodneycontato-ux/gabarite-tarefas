@@ -48,7 +48,7 @@ export default async function PagamentosPage() {
   });
 
   return (
-    <div className="p-8 bg-slate-50 min-h-screen">
+    <div className="bg-slate-50 min-h-screen">
       <div className="mb-10">
         <h1 className="text-3xl font-black italic uppercase text-slate-900 leading-none">Pagamentos
         </h1>

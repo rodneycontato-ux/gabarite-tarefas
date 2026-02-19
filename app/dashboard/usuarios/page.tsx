@@ -8,7 +8,7 @@ export default async function ListaUsuariosPage() {
   });
 
   return (
-    <div className="p-8">
+    <div>
       <UsuariosClient usuarios={usuarios} />
     </div>
   );

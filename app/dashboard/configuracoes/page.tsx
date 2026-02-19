@@ -21,7 +21,7 @@ export default function ConfiguracoesPage() {
   ];
 
   return (
-    <div className="p-10 max-w-5xl mx-auto">
+    <div className=" max-w-5xl mx-auto">
       {/* Cabeçalho */}
       <div className="mb-10">
         <h1 className="text-3xl font-black italic uppercase text-slate-900 leading-none">

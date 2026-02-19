@@ -8,7 +8,7 @@ export default async function ListaProjetosPage() {
   });
 
   return (
-    <div className="p-10 max-w-7xl mx-auto">
+    <div className="max-w-7xl mx-auto">
       {/* O componente cliente cuida do Header e da Tabela */}
       <ListaProjetosClient projetos={projetos} />
 

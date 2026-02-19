@@ -21,8 +21,8 @@ export default async function CadastroPautaPage() {
   ]);
 
   return (
-    <div className="min-h-screen p-4 md:p-12 bg-slate-50">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen bg-slate-50">
+      <div className=" mx-auto">
         {/* 3. Agora passamos a nova lista de usuários para o componente */}
         <FormPauta 
           sites={sites} 

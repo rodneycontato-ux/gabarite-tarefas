@@ -73,7 +73,7 @@ export default async function MuralTarefasPage({
   ];
 
   return (
-    <div className="p-8 bg-slate-50 min-h-screen">
+    <div className="bg-slate-50 min-h-screen">
       {/* HEADER */}
       <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
@@ -120,7 +120,7 @@ export default async function MuralTarefasPage({
       {/* EMPTY STATE */}
       {tarefas.length === 0 && (
         <div className="text-center py-20 bg-white rounded-[3rem] border-2 border-dashed border-slate-100">
-          <p className="text-slate-300 font-black uppercase italic">Nenhuma pauta encontrada com este status.</p>
+          <p className="text-slate-300 font-black uppercase italic">Nenhuma tarefa encontrada com este status.</p>
         </div>
       )}
     </div>

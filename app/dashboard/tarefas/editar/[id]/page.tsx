@@ -30,7 +30,7 @@ export default async function EditarPautaPage({ params }: { params: Promise<{ id
   if (!pauta) notFound();
 
   return (
-    <div className="p-8 bg-slate-50 min-h-screen">
+    <div className="bg-slate-50 min-h-screen">
       <div className="max-w-5xl mx-auto">
         <FormPauta 
           pauta={pauta} 

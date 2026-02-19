@@ -10,7 +10,7 @@ export default async function ListaCategoriasPage() {
   });
 
   return (
-    <div className="p-10 max-w-5xl mx-auto">
+    <div className="max-w-5xl mx-auto">
       {/* O componente Client assume a renderização da lista e dos modais */}
       <ListaCategoriasClient categorias={categorias} />
 

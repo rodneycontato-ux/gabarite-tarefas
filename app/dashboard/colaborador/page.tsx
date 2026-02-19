@@ -5,7 +5,7 @@ import CardInformativo from "./_components/CardInformativo";
 
 export default function PainelColaborador() {
   return (
-    <div className="p-6 space-y-6 bg-gray-50 min-h-screen">
+    <div className=" space-y-6 bg-gray-50 min-h-screen">
       
       {/* 1. SEÇÃO DE CARDS SUPERIORES (Unificados) */}
       <Suspense 

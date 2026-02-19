@@ -18,7 +18,7 @@ export default async function PagarPage({ params }: { params: Promise<{ id: stri
   const cardStyle = "bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-xl max-w-2xl mx-auto mt-10";
 
   return (
-    <div className="p-8 bg-slate-50 min-h-screen">
+    <div className="bg-slate-50 min-h-screen">
       <div className={cardStyle}>
         <div className="flex justify-between items-start mb-8">
           <div>

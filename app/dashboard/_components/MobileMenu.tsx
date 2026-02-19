@@ -1,31 +1,22 @@
 "use client";
-import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { useState, useEffect } from "react";
+import { X } from "lucide-react";
 
 export default function MobileMenu({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
 
+  // Escuta o evento para abrir o menu a partir de qualquer lugar
+  useEffect(() => {
+    const handleOpen = () => setIsOpen(true);
+    window.addEventListener("open-sidebar", handleOpen);
+    return () => window.removeEventListener("open-sidebar", handleOpen);
+  }, []);
+
   return (
     <>
-      {/* Barra do Topo (Só Mobile) - Sem o 'fixed' para não cobrir o texto */}
-      <div className="lg:hidden flex items-center px-4 h-16 bg-white border-b border-slate-200 shrink-0">
-        <button 
-          onClick={() => setIsOpen(true)}
-          className="p-2 bg-slate-900 text-white rounded-lg"
-        >
-          <Menu size={20} />
-        </button>
-        <span className="ml-3 font-bold text-slate-800 text-sm tracking-tight uppercase">
-          Menu
-        </span>
-      </div>
-
-      {/* Overlay (Só Mobile) */}
+      {/* Overlay */}
       {isOpen && (
-        <div 
-          className="fixed inset-0 bg-black/60 z-[100] lg:hidden" 
-          onClick={() => setIsOpen(false)}
-        />
+        <div className="fixed inset-0 bg-black/60 z-[100] lg:hidden" onClick={() => setIsOpen(false)} />
       )}
 
       {/* Sidebar Drawer */}
@@ -34,10 +25,7 @@ export default function MobileMenu({ children }: { children: React.ReactNode }) 
         ${isOpen ? "translate-x-0" : "-translate-x-full"}
         lg:static lg:translate-x-0 lg:flex-shrink-0
       `}>
-        <button 
-          onClick={() => setIsOpen(false)}
-          className="lg:hidden absolute top-4 right-4 text-slate-400 hover:text-white"
-        >
+        <button onClick={() => setIsOpen(false)} className="lg:hidden absolute top-4 right-4 text-slate-400">
           <X size={24} />
         </button>
         {children}

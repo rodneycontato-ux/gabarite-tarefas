@@ -3,6 +3,7 @@
 import { signIn, getSession } from "next-auth/react"; 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { siteConfig } from "@/app/config";
 
 export default function LoginPage() {
   const [erro, setErro] = useState("");
@@ -48,8 +49,8 @@ export default function LoginPage() {
     <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-black text-blue-600 tracking-tighter uppercase">
-            Gabarite Tarefas
+          <h1 className="text-3xl font-black text-blue-600 tracking-tighter uppercase">
+            {siteConfig.name}
           </h1>
           <p className="text-slate-500 font-medium tracking-tight">Console de Administração</p>
         </div>
@@ -95,12 +96,14 @@ export default function LoginPage() {
             </button>
           </form>
 
-          <div className="mt-8 pt-6 border-t border-slate-100 text-center">
+          
+        </div>
+
+        <div className="mt-8 text-center">
             <p className="text-sm text-slate-400">
               Acesso restrito a colaboradores e administradores.
             </p>
           </div>
-        </div>
       </div>
     </div>
   );

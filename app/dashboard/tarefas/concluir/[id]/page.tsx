@@ -19,7 +19,7 @@ export default async function PaginaAprovarPauta({ params }: { params: Promise<{
   if (!pauta) return notFound();
 
   return (
-    <div className="p-8 max-w-7xl mx-auto">
+    <div className="max-w-7xl mx-auto">
       <header className="mb-10">
         <h1 className="text-4xl font-black italic uppercase text-slate-900 tracking-tighter">
           Concluir Tarefa

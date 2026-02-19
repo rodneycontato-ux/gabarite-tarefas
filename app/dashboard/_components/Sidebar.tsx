@@ -1,6 +1,7 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { prisma } from "@/lib/prisma"; 
+import { siteConfig } from "@/app/config";
 import NotificationBadge from "../notificacoes/_components/NotificationBadge"; 
 import Link from 'next/link';
 import NavLink from "./NavLink";
@@ -53,8 +54,10 @@ export default async function Sidebar() {
       {/* Logo */}
       <div className="p-8">
         <h1 className="text-white text-2xl font-black tracking-tighter uppercase italic leading-none">
-          GABARITE<br />
-          <span className="text-blue-500 text-sm not-italic tracking-widest">TAREFAS</span>
+          {siteConfig.name.split(" ")[0]} <br />
+          <span className="text-blue-500 text-sm not-italic tracking-widest">
+            {siteConfig.name.split(" ")[1]}
+          </span>
         </h1>
       </div>
 
@@ -122,7 +125,7 @@ export default async function Sidebar() {
 
       <div className="p-6 border-t border-slate-800/50">
         <p className="text-[10px] text-slate-500 uppercase tracking-widest text-center">
-          Painel Administrativo v2.0
+          Painel Administrativo v{siteConfig.version}
         </p>
       </div>
     </div>

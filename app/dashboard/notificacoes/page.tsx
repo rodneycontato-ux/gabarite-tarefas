@@ -62,7 +62,7 @@ export default async function AdminNotificacoesPage() {
   });
 
   return (
-    <div className="p-8 bg-slate-50 min-h-screen">
+    <div className="bg-slate-50 min-h-screen">
       <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
           <h1 className="text-3xl font-black italic uppercase text-slate-900 leading-none">
