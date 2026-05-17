@@ -97,10 +97,10 @@ export default async function Sidebar() {
               <LayoutDashboard size={20} /> Dashboard
             </NavLink>
             <NavLink href="/dashboard/tarefas" active={activeStyle} normal={normalStyle}>
-              <CheckCircle2 size={20} /> Minhas Tarefas
+              <CheckCircle2 size={20} /> Tarefas
             </NavLink>
             <NavLink href="/dashboard/pagamentos" active={activeStyle} normal={normalStyle}>
-              <CircleDollarSign size={20} /> Meus Pagamentos
+              <CircleDollarSign size={20} /> Pagamentos
             </NavLink>
             
             <NavLink 

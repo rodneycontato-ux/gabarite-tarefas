@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import GraficoCustos from "./_components/GraficoCustos";
 import ResumoAdmin from "./_components/ResumoTarefas"; // Import do novo componente unificado
-import CustoColaborador from "./_components/CustoColaborador";
+import UltimasTarefasConcluidas from "./_components/TarefasConcluidas"; // Novo histórico de entregas
 
 export default function AdminDashboard() {
   return (
@@ -20,22 +20,31 @@ export default function AdminDashboard() {
         <ResumoAdmin />
       </Suspense>
 
-      {/* 2. SEÇÃO DO GRÁFICO */}
-      <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
-        <div className="flex justify-between items-center mb-6">
-          <h4 className="font-black text-slate-800 text-xs uppercase tracking-tighter italic">Fluxo de Custos (12 Meses)</h4>
-          <span className="text-[10px] font-black text-slate-300 uppercase italic">Relatório Consolidado</span>
-        </div>
-        
-        <div className="h-[250px] w-full">
-          <GraficoCustos /> 
-        </div>
+      {/* 2. Chamada do Gráfico */}
+      <div className="grid grid-cols-1">
+        <Suspense fallback={<div className="h-75 bg-slate-100 animate-pulse rounded-4xl" />}>
+          <GraficoCustos />
+        </Suspense>
       </div>
 
-      {/* 3. Seção: Custo por Colaborador */}
-      <Suspense fallback={<div className="h-64 bg-slate-50 animate-pulse rounded-3xl" />}>
-        <CustoColaborador />
-      </Suspense>
+      {/* 3. Últimas Tarefas Concluídas */}
+      <div className="grid grid-cols-1">
+        <Suspense 
+          fallback={
+            <div className="bg-white p-6 rounded-4xl border border-slate-100 space-y-4">
+              <div className="h-6 w-48 bg-slate-100 animate-pulse rounded-md" />
+              <div className="h-4 w-32 bg-slate-50 animate-pulse rounded-md" />
+              <div className="space-y-3 pt-4">
+                <div className="h-20 bg-slate-50 animate-pulse rounded-2xl border border-slate-100" />
+                <div className="h-20 bg-slate-50 animate-pulse rounded-2xl border border-slate-100" />
+                <div className="h-20 bg-slate-50 animate-pulse rounded-2xl border border-slate-100" />
+              </div>
+            </div>
+          }
+        >
+          <UltimasTarefasConcluidas />
+        </Suspense>
+      </div>
 
     </div>
   );

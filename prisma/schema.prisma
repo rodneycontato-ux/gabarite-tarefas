@@ -10,8 +10,8 @@ datasource db {
 model categoria {
   id             Int     @id @default(autoincrement())
   nome_categoria String? @db.VarChar(200)
-  teste String? @db.VarChar(200)
-  pautas    pauta[]
+  teste          String? @db.VarChar(200)
+  pautas         pauta[]
 
   @@index([nome_categoria], map: "nome_categoria")
 }
@@ -28,23 +28,22 @@ model site {
 }
 
 model pauta {
-  id_pauta       Int       @id @default(autoincrement())
-  id_usuario     Int?
-  id_site        Int?
-  id_categoria   Int?
-  status         String    @db.VarChar(50)
-  data           DateTime  @db.DateTime(0)
-  data_inicio    DateTime? @db.DateTime(0)
-  data_conclusao DateTime? @db.DateTime(0)
-  texto          String?   @db.LongText
-  titulo         String?   @db.VarChar(300)
-  relato_colaborador    String?  @db.LongText
-  preco          Float?    @db.Float
-  usuario        usuario?  @relation(fields: [id_usuario], references: [id_usuario], onDelete: NoAction, map: "FK_usuario_pauta")
-  site_relacionado site?  @relation(fields: [id_site], references: [id_site], onDelete: NoAction, onUpdate: Cascade, map: "FK_pauta_site")
-  categoria_relacionada categoria?  @relation(fields: [id_categoria], references: [id], onDelete: NoAction, onUpdate: Cascade, map: "FK_pauta_categoria")
+  id_pauta              Int        @id @default(autoincrement())
+  id_usuario            Int?
+  id_site               Int?
+  id_categoria          Int?
+  status                String     @db.VarChar(50)
+  data                  DateTime   @db.DateTime(0)
+  data_inicio           DateTime?  @db.DateTime(0)
+  data_conclusao        DateTime?  @db.DateTime(0)
+  texto                 String?    @db.LongText
+  titulo                String?    @db.VarChar(300)
+  preco                 Float?     @db.Float
+  relato_colaborador    String?    @db.LongText
+  categoria_relacionada categoria? @relation(fields: [id_categoria], references: [id], onDelete: NoAction, map: "FK_pauta_categoria")
+  site_relacionado      site?      @relation(fields: [id_site], references: [id_site], onDelete: NoAction, map: "FK_pauta_site")
+  usuario               usuario?   @relation(fields: [id_usuario], references: [id_usuario], onDelete: NoAction, map: "FK_usuario_pauta")
 
- 
   @@index([id_usuario], map: "id_usuario")
   @@index([id_site], map: "id_site")
   @@index([id_categoria], map: "id_categoria")
@@ -66,23 +65,18 @@ model usuario {
 }
 
 model pagamentos {
-  id_pagamento    Int               @id @default(autoincrement())
-  id_usuario      Int
-  ano             Int               @db.Year
-  mes             Int               @db.TinyInt
-  total_itens     Int
-  total_valor     Decimal           @db.Decimal(10, 2)
-  criado_em       DateTime?         @default(now()) @db.DateTime(0)
-  data_pagamento  DateTime?         @db.DateTime(0)
-  status          pagamentos_status @default(pendente)
-  usuario         usuario           @relation(fields: [id_usuario], references: [id_usuario], onUpdate: Restrict, map: "FK_pagamentos_usuario")
+  id_pagamento   Int               @id @default(autoincrement())
+  id_usuario     Int
+  ano            Int               @db.Year
+  mes            Int               @db.TinyInt
+  total_itens    Int
+  total_valor    Decimal           @db.Decimal(10, 2)
+  criado_em      DateTime?         @default(now()) @db.DateTime(0)
+  data_pagamento DateTime?         @db.DateTime(0)
+  status         pagamentos_status @default(pendente)
+  usuario        usuario           @relation(fields: [id_usuario], references: [id_usuario], onUpdate: Restrict, map: "FK_pagamentos_usuario")
 
   @@unique([id_usuario, ano, mes], map: "uk_usuario_ano_mes")
-}
-
-enum pagamentos_status {
-  pendente
-  pago
 }
 
 model notificacao {
@@ -106,4 +100,9 @@ model notificacao_visualizada {
 
   @@index([id_notificacao], map: "FK_notificcao_visualizou")
   @@index([id_usuario], map: "FK_uusuario_visualizou")
+}
+
+enum pagamentos_status {
+  pendente
+  pago
 }

@@ -1,6 +1,6 @@
 export default function CardInformativo() {
   return (
-    <div className="bg-white border border-slate-100 rounded-[2rem] p-8 shadow-sm h-fit">
+    <div className="bg-white border border-slate-100 rounded-4xl p-8 shadow-sm h-fit">
       {/* Header */}
       <header className="mb-6">
         <div className="flex items-center gap-3 mb-2">
@@ -105,7 +105,7 @@ export default function CardInformativo() {
           <a 
             href="https://drive.google.com/drive/folders/1hMQ7Zel988gbZ6Wmzo8OFHy4clZw7na5" 
             target="_blank" 
-            className="flex items-center justify-between p-5 bg-slate-900 rounded-[2rem] text-white hover:bg-indigo-600 transition-all shadow-lg shadow-slate-200"
+            className="flex items-center justify-between p-5 bg-slate-900 rounded-4xl text-white hover:bg-indigo-600 transition-all shadow-lg shadow-slate-200"
           >
             <div className="flex items-center gap-3">
               <span className="text-xl">📂</span>

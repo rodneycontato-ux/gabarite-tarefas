@@ -63,7 +63,7 @@ export async function criarPauta(formData: FormData) {
         where: { 
           email: { contains: "@" }, 
           status: 1,
-          nivel: { not: 1 } // <--- RETIRA NÍVEL 1- GERENTE
+          nivel: { in: [1, 2] } // <--- FILTRA RESTRITAMENTE: Apenas nível 1 e nível 2 recebem
         },
         select: { email: true }
       });

@@ -106,21 +106,26 @@ export default function FormPauta({
       </div>
 
       {/* LINHA 1: COLABORADOR E STATUS */}
-      <div className="flex flex-col">
-        <label className={labelStyle}>Colaborador Responsável</label>
-        <select 
-          name="id_usuario" 
-          className={inputStyle} 
-          defaultValue={pauta?.id_usuario || ""}
-        >
-          <option value="">Selecionar colaborador...</option>
-          {usuarios?.map(u => (
-            <option key={u.id_usuario} value={u.id_usuario}>
-              {u.nome}
-            </option>
-          ))}
-        </select>
-      </div>
+<div className="flex flex-col">
+  <label className={labelStyle}>Colaborador Responsável</label>
+  <select 
+    name="id_usuario" 
+    className={inputStyle} 
+    defaultValue={pauta?.id_usuario || ""}
+  >
+    {/* Opção Padrão (Default) */}
+    <option value="">Selecionar colaborador...</option>
+    
+    {/* Nova opção explícita para deixar a tarefa pública */}
+    <option value="todos">Disponível para todos (Livre)</option>
+    
+    {usuarios?.map(u => (
+      <option key={u.id_usuario} value={u.id_usuario}>
+        {u.nome}
+      </option>
+    ))}
+  </select>
+</div>
 
       <div className="flex flex-col">
         <label className={labelStyle}>Status do Fluxo</label>
@@ -208,7 +213,7 @@ export default function FormPauta({
       {/* Editor */}
       <div className="col-span-full flex flex-col mt-2">
         <label className={labelStyle}>Conteúdo e Briefing</label>
-        <div className="rounded-[1.5rem] overflow-hidden border border-slate-100 bg-slate-50 p-1">
+        <div className="rounded-3xl overflow-hidden border border-slate-100 bg-slate-50 p-1">
           <Editor value={texto} onChange={setTexto} />
         </div>
       </div>
@@ -218,7 +223,7 @@ export default function FormPauta({
         <button 
           type="submit" 
           disabled={loading}
-          className="flex-grow bg-[#1e293b] hover:bg-blue-600 text-white font-black uppercase text-[10px] tracking-[0.2em] p-5 rounded-2xl transition-all shadow-lg active:scale-[0.98] disabled:opacity-50"
+          className="grow bg-[#1e293b] hover:bg-blue-600 text-white font-black uppercase text-[10px] tracking-[0.2em] p-5 rounded-2xl transition-all shadow-lg active:scale-[0.98] disabled:opacity-50"
         >
           {loading ? "Processando..." : pauta ? "💾 Salvar Alterações" : "🚀 Publicar Pauta"}
         </button>

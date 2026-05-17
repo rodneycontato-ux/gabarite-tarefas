@@ -11,9 +11,9 @@ export default function PainelColaborador() {
       <Suspense 
         fallback={
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="h-32 bg-white animate-pulse rounded-[2rem] border border-slate-100" />
-            <div className="h-32 bg-white animate-pulse rounded-[2rem] border border-slate-100" />
-            <div className="h-32 bg-white animate-pulse rounded-[2rem] border border-slate-100" />
+            <div className="h-32 bg-white animate-pulse rounded-4xl border border-slate-100" />
+            <div className="h-32 bg-white animate-pulse rounded-4xl border border-slate-100" />
+            <div className="h-32 bg-white animate-pulse rounded-4xl border border-slate-100" />
           </div>
         }
       >
@@ -22,7 +22,7 @@ export default function PainelColaborador() {
 
       {/* 2. Chamada do Gráfico */}
       <div className="grid grid-cols-1">
-        <Suspense fallback={<div className="h-[300px] bg-slate-100 animate-pulse rounded-[2rem]" />}>
+        <Suspense fallback={<div className="h-75 bg-slate-100 animate-pulse rounded-4xl" />}>
           <GraficoGanhos />
         </Suspense>
       </div>
